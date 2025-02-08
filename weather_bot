@@ -6,7 +6,7 @@ app = Flask(__name__)
 # CIMIS API configuration
 CIMIS_API_URL = "https://et.water.ca.gov/api/data"
 CIMIS_API_KEY = "7f0afd98-ad50-43c6-a689-dafa276ba0d9"
-STATION_ID = "your_station_id"  # Replace with Twin Peaks station ID
+STATION_ID = "254"  # Oakland station ID, Alameda County
 
 # Fetch weather data
 def fetch_weather_data():
