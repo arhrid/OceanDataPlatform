@@ -1,0 +1,44 @@
+import requests
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# CIMIS API configuration
+CIMIS_API_URL = "https://et.water.ca.gov/api/data"
+CIMIS_API_KEY = "7f0afd98-ad50-43c6-a689-dafa276ba0d9"
+STATION_ID = "your_station_id"  # Replace with Twin Peaks station ID
+
+# Fetch weather data
+def fetch_weather_data():
+    params = {
+        "appKey": CIMIS_API_KEY,
+        "targets": STATION_ID,
+        "dataItems": "hly-air-tmp,hly-rel-hum,hly-wind-spd,hly-wind-dir",
+        "startDate": "today",
+        "endDate": "today",
+    }
+    response = requests.get(CIMIS_API_URL, params=params)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+@app.route('/query', methods=['POST'])
+def query_weather():
+    user_query = request.json.get('query')
+    data = fetch_weather_data()
+    if not data:
+        return jsonify({"error": "Failed to fetch weather data."}), 500
+
+    # Example query handling
+    if "temperature" in user_query.lower():
+        temperature = data['Data']['Stations'][0]['hly-air-tmp']['Value']
+        return jsonify({"response": f"The current temperature near Twin Peaks is {temperature} °F."})
+    elif "humidity" in user_query.lower():
+        humidity = data['Data']['Stations'][0]['hly-rel-hum']['Value']
+        return jsonify({"response": f"The current humidity near Twin Peaks is {humidity}%."})
+    else:
+        return jsonify({"response": "I'm sorry, I didn't understand your question."})
+
+if __name__ == '__main__':
+    app.run(debug=True)
