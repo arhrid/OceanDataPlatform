@@ -1,5 +1,5 @@
-# OceanDataPlatform
-Chatbot-enhanced data platform which deploys net of sensors throughout the ocean. Data is acquired from weather sensors, buoy, etc.
+# Data Play Geo
+Chatbot-enhanced data platform which deploys net of land sensors. Data is acquired from weather sensors, buoy, etc. One example is the CIMIS weather data.
 
 
 #Features: 
